@@ -1,20 +1,13 @@
 import 'dotenv/config';
 
-//dotenv.config();
+export const getEnvVar = (envVarName, defaultValue) => {
+  const envVar = process.env[envVarName];
 
-export const getEnvVar = (name, defaultValue) => {
-  const value = process.env[name];
-
-  if (value) return value;
-
-  if (defaultValue) return defaultValue;
-
-  throw new Error(`Missing: process.env['${name}'].`);
+  if (!envVar && defaultValue) {
+    return defaultValue;
+  }
+  if (!envVar) {
+    throw new Error(`EnvVar with name ${envVarName} not exist!`);
+  }
+  return envVar;
 };
-
-// Використати її ми можемо, наприклад,
-// в такому вигляді: env('PORT', '3000');
-// Якщо змінної оточення з такою назвою
-// не було вказано і не було передано дефолтного значення,
-// то виклик цієї функції викине помилку
-// з повідомленням Missing: process.env['PORT'].
