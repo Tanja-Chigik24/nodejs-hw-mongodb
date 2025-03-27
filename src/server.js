@@ -2,7 +2,9 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 import { getEnvVar } from './utils/getEnvVar.js';
-import { getAllContacts, getContactById } from './services/contacts.js';
+import { errorHandler } from './middlewares/errorHandler.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import contactsRouter from './routers/contacts.js'; // Імпортуємо роутер
 
 export const setupServer = () => {
   const app = express();
@@ -28,7 +30,8 @@ export const setupServer = () => {
     });
   });
 
-  app.get('/contacts', async (req, res) => {
+  app.use(contactsRouter); // Додаємо роутер до app як middleware
+  /* app.get('/contacts', async (req, res) => {
     const contacts = await getAllContacts();
 
     res.status(200).json({
@@ -55,9 +58,12 @@ export const setupServer = () => {
       data: contact,
       message: `Successfully found contact with id ${contactId}!`,
     });
-  });
+  });*/
+  app.use('*', notFoundHandler);
 
-  app.use('*', (req, res, next) => {
+  app.use(errorHandler);
+
+  /* app.use('*', (req, res, next) => {
     res.status(404).json({
       status: 404,
       message: 'Not found',
@@ -70,7 +76,7 @@ export const setupServer = () => {
       message: 'Something went wrong',
       error: err.message,
     });
-  });
+  });*/
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
