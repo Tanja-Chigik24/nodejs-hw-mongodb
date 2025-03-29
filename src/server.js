@@ -30,53 +30,11 @@ export const setupServer = () => {
     });
   });
 
-  app.use(contactsRouter); // Додаємо роутер до app як middleware
-  /* app.get('/contacts', async (req, res) => {
-    const contacts = await getAllContacts();
+  app.use(contactsRouter);
 
-    res.status(200).json({
-      status: 200,
-      data: contacts,
-      message: 'Successfully found contacts!',
-    });
-  });
-
-  app.get('/contacts/:contactId', async (req, res, next) => {
-    const { contactId } = req.params;
-    const contact = await getContactById(contactId);
-
-    // Відповідь, якщо контакт не знайдено
-    if (!contact) {
-      return res.status(404).json({
-        status: 404,
-        message: 'Contact not found',
-      });
-    }
-    // Відповідь, якщо контакт знайдено
-    res.status(200).json({
-      status: 200,
-      data: contact,
-      message: `Successfully found contact with id ${contactId}!`,
-    });
-  });*/
   app.use('*', notFoundHandler);
 
   app.use(errorHandler);
-
-  /* app.use('*', (req, res, next) => {
-    res.status(404).json({
-      status: 404,
-      message: 'Not found',
-    });
-  });
-
-  app.use((err, req, res, next) => {
-    res.status(500).json({
-      status: 500,
-      message: 'Something went wrong',
-      error: err.message,
-    });
-  });*/
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
