@@ -22,30 +22,30 @@ const contactsRouter = Router();
 contactsRouter.use(authenticate);
 contactsRouter.get(
   '/',
-  checkRoles(ROLES.USER),
+  //  checkRoles(ROLES.USER),
   ctrlWrapper(getContactsController),
 );
 contactsRouter.get(
   '/:contactId',
-  checkRoles(ROLES.USER),
+  //  checkRoles(ROLES.USER),
   isValidId,
   ctrlWrapper(getContactByIdController),
 );
 contactsRouter.post(
   '/',
-  checkRoles(ROLES.USER),
+  // checkRoles(ROLES.USER),
   validateBody(createContactSchema),
   ctrlWrapper(createContactController),
 );
 contactsRouter.delete(
   '/:contactId',
-  checkRoles(ROLES.USER),
+  // checkRoles(ROLES.USER),
   isValidId,
   ctrlWrapper(deleteContactController),
 );
 contactsRouter.patch(
   '/:contactId',
-  checkRoles(ROLES.USER),
+  // checkRoles(ROLES.USER),
   isValidId,
   validateBody(updateContactSchema),
   ctrlWrapper(patchContactController),
