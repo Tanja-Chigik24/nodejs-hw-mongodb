@@ -4,7 +4,8 @@ import cors from 'cors';
 import { getEnvVar } from './utils/getEnvVar.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
-import contactsRouter from './routers/contacts.js'; // Імпортуємо роутер
+import router from './routers/index.js';
+import cookieParser from 'cookie-parser';
 
 export const setupServer = () => {
   const app = express();
@@ -16,6 +17,7 @@ export const setupServer = () => {
       origin: 'localhost',
     }),
   );
+  app.use(cookieParser());
 
   app.use(
     pino({
@@ -30,7 +32,7 @@ export const setupServer = () => {
     });
   });
 
-  app.use(contactsRouter);
+  app.use(router);
 
   app.use('*', notFoundHandler);
 
